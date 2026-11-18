@@ -35,7 +35,7 @@ public class TelaCadastroPessoa extends JFrame {
     // Consulta as pessoas cadastradas via Controller
     private void atualizarLista() {
 
-        List<Pessoa> pessoas = controller.consultarPessoas();
+        List<Pessoa> pessoas = controller.getPessoas();
 
         modeloLista.clear();
 
