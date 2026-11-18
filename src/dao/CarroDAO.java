@@ -2,24 +2,19 @@ package dao;
 
 import model.Carro;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class CarroDAO {
+public class CarroDAO extends DAO<Carro> {
 
-    private final List<Carro> dados;
-
-    public CarroDAO(){
-        this.dados = new ArrayList<>();
-    }
-
-    public void inserir(Carro c){
+    @Override
+    public void add(Carro c){
         if (c != null)
             this.dados.add(c);
-        else throw new IllegalArgumentException("Carro inválido");
+        else throw new IllegalArgumentException("Objeto Nulo/Vazio");
     }
 
-    public List<Carro> getCarros(){
+    @Override
+    public List<Carro> getAll() {
         return this.dados;
     }
 }

@@ -4,21 +4,17 @@ import model.Pessoa;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PessoaDAO {
+public class PessoaDAO extends  DAO<Pessoa>{
 
-    private final List<Pessoa> dados;
-
-    public PessoaDAO(){
-        this.dados = new ArrayList<>();
-    }
-
-    public void inserir(Pessoa p){
+    @Override
+    public void add(Pessoa p){
         if (p != null)
             this.dados.add(p);
         else throw new IllegalArgumentException("Objeto Nulo/Vazio");
     }
 
-    public List<Pessoa> getPessoas(){
+    @Override
+    public List<Pessoa> getAll(){
         return this.dados;
     }
 }

@@ -7,7 +7,7 @@ import java.util.List;
 
 public class CarroController {
 
-    private CarroDAO dao;
+    private final CarroDAO dao;
 
     public CarroController(){
         this.dao = new CarroDAO();
@@ -16,11 +16,11 @@ public class CarroController {
     public void inserirCarro(Integer ano, String modelo){
         if (ano != null && modelo != null){
             Carro c = new Carro(ano, modelo);
-            this.dao.inserir(c);
+            this.dao.add(c);
         }else throw new IllegalArgumentException("Dados inválidos");
     }
 
     public List<Carro> getCarros(){
-        return this.dao.getCarros();
+        return this.dao.getAll();
     }
 }
