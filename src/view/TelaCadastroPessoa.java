@@ -8,7 +8,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.List;
 
-public class TelaCadastroPessoa extends JFrame {
+public class TelaCadastroPessoa extends JPanel {
 
     private JLabel labelNome;
     private JLabel labelEmail;
@@ -19,12 +19,10 @@ public class TelaCadastroPessoa extends JFrame {
 
     private JButton buttonCadastro;
 
-    // Lista de objetos Pessoa
     private JList<Pessoa> listaPessoas;
     private DefaultListModel<Pessoa> modeloLista;
     private JScrollPane scrollLista;
 
-    // Controller
     private PessoaController controller;
 
     public TelaCadastroPessoa() {
@@ -32,7 +30,6 @@ public class TelaCadastroPessoa extends JFrame {
         initComponents();
     }
 
-    // Consulta as pessoas cadastradas via Controller
     private void atualizarLista() {
 
         List<Pessoa> pessoas = controller.getPessoas();
@@ -55,11 +52,9 @@ public class TelaCadastroPessoa extends JFrame {
 
         buttonCadastro = new JButton("Cadastrar");
 
-        // Inicialização da lista de pessoas
         modeloLista = new DefaultListModel<>();
         listaPessoas = new JList<>(modeloLista);
 
-        // Define como cada Pessoa será exibida na lista
         listaPessoas.setCellRenderer(
                 new DefaultListCellRenderer() {
                     @Override
@@ -95,14 +90,7 @@ public class TelaCadastroPessoa extends JFrame {
 
         scrollLista = new JScrollPane(listaPessoas);
 
-        this.setTitle("Cadastrar Pessoa");
-        this.setSize(500, 450);
-        this.setResizable(false);
-        this.setDefaultCloseOperation(
-                WindowConstants.EXIT_ON_CLOSE
-        );
-
-        this.getContentPane().setLayout(null);
+        this.setLayout(null);
 
         labelNome.setBounds(30, 30, 70, 25);
         this.add(labelNome);
@@ -138,10 +126,8 @@ public class TelaCadastroPessoa extends JFrame {
                 return;
             }
 
-            // Cadastro via Controller
             controller.cadastrarPessoa(nome, email);
 
-            // Atualiza a lista via Controller
             atualizarLista();
 
             JOptionPane.showMessageDialog(
@@ -149,18 +135,12 @@ public class TelaCadastroPessoa extends JFrame {
                     "Pessoa cadastrada com sucesso!"
             );
 
-            // Limpa os campos
             fieldNome.setText("");
             fieldEmail.setText("");
 
-            // Retorna o foco ao campo nome
             fieldNome.requestFocusInWindow();
         });
 
-        // Carrega as pessoas já cadastradas
         atualizarLista();
-
-        this.setLocationRelativeTo(null);
-        this.setVisible(true);
     }
 }

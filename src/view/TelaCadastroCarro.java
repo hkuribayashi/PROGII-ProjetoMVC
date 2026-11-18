@@ -8,7 +8,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.List;
 
-public class TelaCadastroCarro extends JFrame {
+public class TelaCadastroCarro extends JPanel {
 
     private JLabel labelAno;
     private JLabel labelModelo;
@@ -19,12 +19,10 @@ public class TelaCadastroCarro extends JFrame {
 
     private JButton buttonCadastro;
 
-    // Lista de objetos Carro
     private JList<Carro> listaCarros;
     private DefaultListModel<Carro> modeloLista;
     private JScrollPane scrollLista;
 
-    // Controller
     private CarroController controller;
 
     public TelaCadastroCarro() {
@@ -32,7 +30,6 @@ public class TelaCadastroCarro extends JFrame {
         initComponents();
     }
 
-    // Consulta os Carros cadastrados via Controller
     private void atualizarLista() {
 
         List<Carro> carros = controller.getCarros();
@@ -55,11 +52,9 @@ public class TelaCadastroCarro extends JFrame {
 
         buttonCadastro = new JButton("Cadastrar");
 
-        // Inicialização da lista de pessoas
         modeloLista = new DefaultListModel<>();
         listaCarros = new JList<>(modeloLista);
 
-        // Define como cada Pessoa será exibida na lista
         listaCarros.setCellRenderer(
                 new DefaultListCellRenderer() {
                     @Override
@@ -95,14 +90,7 @@ public class TelaCadastroCarro extends JFrame {
 
         scrollLista = new JScrollPane(listaCarros);
 
-        this.setTitle("Cadastrar Carro");
-        this.setSize(500, 450);
-        this.setResizable(false);
-        this.setDefaultCloseOperation(
-                WindowConstants.EXIT_ON_CLOSE
-        );
-
-        this.getContentPane().setLayout(null);
+        this.setLayout(null);
 
         labelAno.setBounds(30, 30, 70, 25);
         this.add(labelAno);
@@ -127,7 +115,20 @@ public class TelaCadastroCarro extends JFrame {
 
         buttonCadastro.addActionListener(e -> {
 
-            Integer ano = Integer.parseInt( fieldAno.getText().trim() );
+            int ano;
+
+            try {
+                ano = Integer.parseInt(
+                        fieldAno.getText().trim()
+                );
+            } catch (NumberFormatException ex) {
+                JOptionPane.showMessageDialog(
+                        this,
+                        "Informe um ano válido!"
+                );
+                return;
+            }
+
             String modelo = fieldModelo.getText().trim();
 
             if (ano <= 0 || modelo.isEmpty()) {
@@ -138,10 +139,8 @@ public class TelaCadastroCarro extends JFrame {
                 return;
             }
 
-            // Cadastro via Controller
             controller.inserirCarro(ano, modelo);
 
-            // Atualiza a lista via Controller
             atualizarLista();
 
             JOptionPane.showMessageDialog(
@@ -149,18 +148,12 @@ public class TelaCadastroCarro extends JFrame {
                     "Carro cadastrado com sucesso!"
             );
 
-            // Limpa os campos
             fieldAno.setText("");
             fieldModelo.setText("");
 
-            // Retorna o foco ao campo nome
             fieldAno.requestFocusInWindow();
         });
 
-        // Carrega os carros já cadastrados
         atualizarLista();
-
-        this.setLocationRelativeTo(null);
-        this.setVisible(true);
     }
 }
